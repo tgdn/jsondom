@@ -2,6 +2,37 @@
 
 (function init() {
 	var res = document.getElementById("result");
+  var widgets = {
+    text: {
+      createHelper: function (text) { return document.createTextNode(text); },
+    },
+    input: {
+      tagName: 'input',
+      defaultProps: {
+        type: 'text',
+        className: 'myinput',
+      },
+      availableProps: ['type', 'name', 'id', 'className'],
+      children: false,
+    },
+    button: {
+      tagName: 'button',
+      defaultProps: {
+        type: 'text',
+        className: 'myinput',
+      },
+      availableProps: ['type', 'name', 'id', 'className'],
+      children: true,
+    },
+    textarea: {
+      tagName: 'textarea',
+      defaultProps: {
+        col: '40',
+      },
+      availableProps: ['cols', 'row', 'name', 'id', 'className'],
+      children: true,
+    }
+  };
 	
 	function cleanResult() {
 		res.innerHTML = "";
@@ -14,28 +45,44 @@
 		el.appendChild(document.createTextNode(msg));
 		res.appendChild(el);
 	}
+  
+  function parseChildren(rootNode, domElement) {
+    var children = rootNode.children;
+    
+    if (children && Array.isArray(children)) {
+      for (var i = 0; i < children.length; i++) {
+        var child = parseNode(children[i]);
+        domElement.appendChild(child);
+      }
+		}
+    
+    return domElement;
+  }
 	
 	function parseNode(node) {
-		var el;
-		var type = node.type;
-		var children = node.children;
+		var domElement;
+    var children = node.children;
+    var widget = widgets[node.type];
 		
-		var widgets = ['input', 'button', 'textarea'];
-		
-		if (widgets.indexOf(type) !== -1) {
-			el = document.createElement(type);
+		if (widget) {
+      if (widget.createHelper && typeof widget.createHelper === 'function') {
+        domElement = widget.createHelper(node.text || '');
+      } else {
+        domElement = document.createElement(widget.tagName);
+      }
+      
+      /* build children if it can have some */
+      if (widget.children && children) {
+        domElement = parseChildren(node, domElement);
+      }
 		} else {
-			el = document.createElement('div');
+			domElement = document.createElement('div');
+      
 			/* build children */
-			if (children && Array.isArray(children)) {
-				for (var i = 0; i < children.length; i++) {
-					var child = parseNode(children[i]);
-					el.appendChild(child);
-				}
-			}
+      domElement = parseChildren(node, domElement);
 		}
 		
-		return el;
+		return domElement;
 	}
 	
 	function parse(tree) {
