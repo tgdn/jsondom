@@ -3,7 +3,7 @@ import TextField from './TextField';
 
 const WIDGETS = {
   input: {
-    tagName: TextField,
+    tagName: 'input',
     defaultProps: {
       type: 'text',
       className: 'myinput',
@@ -11,6 +11,15 @@ const WIDGETS = {
     availableProps: ['type', 'name', 'id', 'className'],
     children: false,
   },
+  button: {
+    tagName: 'button',
+    defaultProps: {
+      value: 'clickme',
+      className: 'mybutton',
+    },
+    availableProps: ['name', 'id', 'className'],
+    children: true,
+  }
 }
 
 class Renderer extends React.Component {
