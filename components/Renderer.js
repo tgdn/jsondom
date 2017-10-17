@@ -1,51 +1,48 @@
 import React from 'react';
-import TextField from './TextField';
-
-const WIDGETS = {
-  input: {
-    tagName: 'input',
-    defaultProps: {
-      type: 'text',
-      className: 'myinput',
-    },
-    availableProps: ['type', 'name', 'id', 'className'],
-    children: false,
-  },
-  button: {
-    tagName: 'button',
-    defaultProps: {
-      value: 'clickme',
-      className: 'mybutton',
-    },
-    availableProps: ['name', 'id', 'className'],
-    children: true,
-  }
-}
+// import TextField from 'components/TextField';
+import { Button } from "@blueprintjs/core";
+import WIDGETS from 'lib/widgets';
 
 class Renderer extends React.Component {
   parseChildren(rootNode) {
     const childrenTree = rootNode.children;
 
     if (childrenTree && Array.isArray(childrenTree)) {
-      return childrenTree.map(node => this.parseNode(node));
+      return childrenTree.map((node, i) => this.parseNode(node, i));
+    } else if (childrenTree && typeof childrenTree === 'object') {
+      // FIXME: will return a div if unknown
+      return this.parseNode(childrenTree);
     }
     return [];
   }
 
-  parseNode(node) {
+  parseNode(node, key) {
     let domElement;
     let children;
     const childrenTree = node.children;
     const widget = WIDGETS[node.type];
 
     if (widget) {
-      /* a component */
-      if (widget.children && childrenTree) {
+      /* can it have children? */
+      if (widget.children) {
         children = this.parseChildren(node);
       }
 
-      const props = {...widget.defaultProps, ...node.props}
-      domElement = React.createElement(widget.tagName, props, children);
+      /* concat props and default props */
+      const props = {...widget.defaultProps, ...node.props};
+      /* set key and react will be happy */
+      if (key) {
+        props.key = key;
+      }
+      console.log('key ', key);
+
+      /* does it have a helper function ? */
+      if (widget.createHelper && typeof widget.createHelper === 'function') {
+        domElement = widget.createHelper(node, props);
+      } else {
+        /* create React element from tagName, props and children */
+        domElement = React.createElement(widget.tagName, props, children);
+      }
     } else {
       /* a container */
       children = this.parseChildren(node);
