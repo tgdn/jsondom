@@ -1,7 +1,23 @@
 import React from 'react';
+import styled from 'styled-components';
 // import TextField from 'components/TextField';
 import { Button } from "@blueprintjs/core";
 import WIDGETS from 'lib/widgets';
+
+const Title = styled.h3`
+  color: #a0a0a0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  line-height: 2.7;
+`;
+
+const ErrorTitle = Title.extend`
+  color: #fd9a9a;
+`
 
 class Renderer extends React.Component {
   parseChildren(rootNode) {
@@ -55,12 +71,21 @@ class Renderer extends React.Component {
 
   render() {
     let rendered;
-    try {
-      const json = JSON.parse(this.props.rawTree);
-      rendered = this.parseNode(json);
-    } catch (ex) {
-      console.warn(ex.message);
-      rendered = <p>Rendering error</p>;
+    const rawTree = this.props.rawTree;
+
+    if (rawTree) {
+      try {
+        const json = JSON.parse(rawTree);
+        rendered = this.parseNode(json);
+      } catch (ex) {
+        console.warn(ex.message);
+        rendered = <ErrorTitle>Rendering error</ErrorTitle>;
+      }
+    } else {
+      rendered = <Title>
+        Nothing to render
+        <Button>Add component</Button>
+      </Title>;
     }
     return rendered;
   }

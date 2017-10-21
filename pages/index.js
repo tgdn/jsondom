@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic'
+import { Tab2, Tabs2 } from '@blueprintjs/core';
 import { Grid, Col, Row } from 'react-styled-flexboxgrid'
 import Layout from 'components/Layout';
 import Renderer from 'components/Renderer';
@@ -53,14 +54,18 @@ class Index extends React.Component {
   render() {
     return (
       <Layout>
-        <Row>
-          <Col xs={12} sm={6}>
-            <Editor value={this.state.value} onChange={this.handleChange} />
-          </Col>
-          <Col xs={12} sm={6}>
-            <Renderer rawTree={this.state.value} />
-          </Col>
-        </Row>
+        <Tabs2 id="Tabs2Example">
+            <Tab2
+              id="rx"
+              title="Editor"
+              panel={<Editor value={this.state.value} onChange={this.handleChange} />}
+            />
+            <Tab2
+              id="ng"
+              title="Render"
+              panel={<Renderer rawTree={this.state.value} />}
+            />
+        </Tabs2>
       </Layout>
     );
   }
