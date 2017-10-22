@@ -15,7 +15,7 @@ const Container = styled.div`
   overflow: hidden !important;
 `;
 
-export default ({ children }) => (
+const Layout = ({ children }) => (
   <Main>
     <Head>
       <title>JSONDom</title>
@@ -32,4 +32,6 @@ export default ({ children }) => (
     </Container>
     <StatusBar />
   </Main>
-)
+);
+
+export default Layout;

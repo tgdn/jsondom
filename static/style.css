@@ -1,0 +1,25 @@
+html,
+body,
+body>div:first-child,
+body>div:first-child>div#__next,
+body>div:first-child>div#__next>div,
+body>div:first-child>div#__next>div>.Main {
+  height: 100%;
+}
+
+.pt-navbar .pt-tab {
+  line-height: 50px;
+}
+
+div[class^="Row__"],
+div[class^="Col__"] {
+  height: 100%;
+}
+
+/*.Main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  background-color: #fafafa;
+}*/

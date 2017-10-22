@@ -1,20 +1,16 @@
 import dynamic from 'next/dynamic'
 import { Tab2, Tabs2 } from '@blueprintjs/core';
 import { Grid, Col, Row } from 'react-styled-flexboxgrid'
+import reduxPage from 'lib/reduxPage';
+import { setEditorValue } from 'actions/editor';
 import Layout from 'components/Layout';
 import Renderer from 'components/Renderer';
+import TreeEditor from 'components/TreeEditor';
 const Editor = dynamic(import('components/Editor'), {
   ssr: false,
 });
 
-class Index extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  state = {
-    value: `{
+const initialTree = `{
   "type": "grid",
   "children":
   {
@@ -26,49 +22,39 @@ class Index extends React.Component {
           "width": 4
         },
         "children": {
-          "type": "text",
-          "value": "label"
-        }
-      },
-      {
-        "type": "col",
-        "props": {
-          "width": 12
-        },
-        "children": {
-          "type": "input",
-          "props": {
-            "fluid": true
+          "type": "button",
+          "children": {
+            "type": "text",
+            "value": "click me"
           }
         }
       }
     ]
   }
-}`,
-  };
+}`;
 
-  handleChange(value) {
-    this.setState({ value })
-  }
+const mapStateToProps = ({ ui: { currentTabId }, editor }) => ({
+  tabId: currentTabId,
+  rawTree: editor.rawTree,
+});
 
+const mapDispatchToProps = dispatch => ({
+  setEditorValue: value => dispatch(setEditorValue(value)),
+})
+
+class Index extends React.Component {
   render() {
+    const { tabId, rawTree } = this.props;
     return (
       <Layout>
-        <Tabs2 id="Tabs2Example">
-            <Tab2
-              id="rx"
-              title="Editor"
-              panel={<Editor value={this.state.value} onChange={this.handleChange} />}
-            />
-            <Tab2
-              id="ng"
-              title="Render"
-              panel={<Renderer rawTree={this.state.value} />}
-            />
-        </Tabs2>
+        {tabId === 'editor'
+          ? <Editor value={rawTree} onChange={this.props.setEditorValue} />
+          : <TreeEditor rawTree={rawTree} />
+        }
+        {/* <Renderer rawTree={this.state.value} /> */}
       </Layout>
     );
   }
 }
 
-export default Index;
+export default reduxPage(Index, mapStateToProps, mapDispatchToProps);

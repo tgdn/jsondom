@@ -8,7 +8,9 @@
         "root": ["./"],
         "alias": {
           "components": "./components",
-          "lib": "./lib"
+          "lib": "./lib",
+          "actions": "./actions",
+          "reducers": "./reducers"
         }
       }
     ]
