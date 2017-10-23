@@ -10,29 +10,6 @@ const Editor = dynamic(import('components/Editor'), {
   ssr: false,
 });
 
-const initialTree = `{
-  "type": "grid",
-  "children":
-  {
-    "type": "row",
-    "children": [
-      {
-        "type": "col",
-        "props": {
-          "width": 4
-        },
-        "children": {
-          "type": "button",
-          "children": {
-            "type": "text",
-            "value": "click me"
-          }
-        }
-      }
-    ]
-  }
-}`;
-
 const mapStateToProps = ({ ui: { currentTabId }, editor }) => ({
   tabId: currentTabId,
   rawTree: editor.rawTree,
@@ -45,6 +22,8 @@ const mapDispatchToProps = dispatch => ({
 class Index extends React.Component {
   render() {
     const { tabId, rawTree } = this.props;
+    // let pane;
+    // switch (tabId) {}
     return (
       <Layout>
         {tabId === 'editor'
