@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import cx from 'classnames';
 import styled from 'styled-components';
 import { Classes, Tabs2, Tab2 } from '@blueprintjs/core';

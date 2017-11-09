@@ -26,7 +26,6 @@ const Layout = ({ children }) => (
       <link rel="stylesheet" href="/static/semantic.css" />
       <link rel="stylesheet" href="/static/style.css" />
     </Head>
-    <Header />
     <Container>
       {children}
     </Container>

@@ -1,6 +1,11 @@
 import React from 'react';
 import { Classes, Tree } from '@blueprintjs/core';
+import styled from 'styled-components';
 import WIDGETS, { DEFAULT_ICON } from 'lib/widgets';
+
+const StyledTree = styled(Tree)`
+  width: 100%;
+`;
 
 class TreeEditor extends React.Component {
   constructor(props) {
@@ -70,9 +75,9 @@ class TreeEditor extends React.Component {
 
   render() {
     return (
-      <Tree
+      <StyledTree
+        className={Classes.DARK}
         contents={this.state.nodes}
-        className={Classes.ELEVATION_0}
         onNodeExpand={this.handleNodeExpand}
         onNodeCollapse={this.handleNodeCollapse}
       />
