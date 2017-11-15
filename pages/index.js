@@ -11,14 +11,8 @@ const Editor = dynamic(import('components/Editor'), {
   ssr: false,
 });
 
-const mapStateToProps = ({ ui: { currentTabId }, editor }) => ({
-  tabId: currentTabId,
-  rawTree: editor.rawTree,
-});
-
-const mapDispatchToProps = dispatch => ({
-  setEditorValue: value => dispatch(setEditorValue(value)),
-});
+const mapStateToProps = state => ({});
+const mapDispatchToProps = dispatch => ({});
 
 class Index extends React.Component {
   render() {
@@ -27,11 +21,6 @@ class Index extends React.Component {
     return (
       <Layout>
         <EditorView />
-        {/* {tabId === 'editor'
-          ? <Editor value={rawTree} onChange={this.props.setEditorValue} />
-          : <TreeEditor rawTree={rawTree} />
-        } */}
-        {/* <Renderer rawTree={this.state.value} /> */}
       </Layout>
     );
   }

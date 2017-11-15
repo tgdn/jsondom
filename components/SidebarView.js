@@ -5,13 +5,21 @@ import throttle from 'lodash/throttle';
 
 const SidebarView = styled.div`
   position: relative !important;
-  flex: 0 0 240px;
+  flex: 0 0 200px;
   display: flex;
   height: 100%;
   max-width: 38%;
   min-width: 10px;
-  background-color: rgb(63, 69, 79);
   overflow: hidden;
+  z-index: 1;
+  background-color: rgb(63, 69, 79);
+  border-left: ${props =>
+    props.attached === 'left' && '1px solid #3e3e3e'};
+  border-right: ${props =>
+    props.attached !== 'left' && '1px solid #3e3e3e'};
+  box-shadow: ${props => props.attached === 'left'
+    ? '2px'
+    : '-2px'} 0 4px 2px #5D5D5D;
 `;
 
 const DragHandle = styled.div`

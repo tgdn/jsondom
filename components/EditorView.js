@@ -1,12 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import dynamic from 'next/dynamic'
 import styled from 'styled-components';
+import { setEditorValue } from 'actions/editor';
 import SidebarView from 'components/SidebarView';
 import TreeEditor from 'components/TreeEditor';
 import Renderer from 'components/Renderer';
+const Editor = dynamic(import('components/Editor'), {
+  ssr: false,
+});
 
-const mapStateToProps = ({ editor }) => ({
-  rawTree: editor.rawTree,
+const mapStateToProps = state => ({
+  tree: state.get('editor').get('tree'),
+});
+
+const mapDispatchToProps = dispatch => ({
+  setEditorValue: value => dispatch(setEditorValue(value)),
 });
 
 const ViewsContainer = styled.div`
@@ -23,21 +32,22 @@ const CentralContainer = styled.div`
 `;
 
 class EditorView extends React.Component {
+  componentWillReceiveProps(newProps) {}
+
   render() {
-    const { rawTree } = this.props;
-    console.log(rawTree);
+    const tree = this.props.tree;
     return (
       <ViewsContainer>
         <SidebarView attached="right">
-          <TreeEditor rawTree={rawTree} />
+          <TreeEditor rootNode={tree} />
         </SidebarView>
         <CentralContainer>
-          <Renderer rawTree={rawTree} />
+          {tree.render()}
         </CentralContainer>
-        <SidebarView attached="left" />
+        {/* <SidebarView attached="left"></SidebarView> */}
       </ViewsContainer>
     );
   }
 }
 
-export default connect(mapStateToProps)(EditorView);
+export default connect(mapStateToProps, mapDispatchToProps)(EditorView);
