@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react-native",
+    "module": "commonjs",
+    "strict": true,
+    "target": "es2017",
+    "allowJs": true,
+    "baseUrl": "./",
+    "outDir": "./build",
+    "paths": {
+      "components/*": ["./components/*"],
+      "lib/*": ["./lib/*"],
+      "actions/*": ["./actions/*"],
+      "reducers/*": ["./reducers/*"]
+    }
+  }
+}

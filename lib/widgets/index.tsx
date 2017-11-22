@@ -8,10 +8,23 @@ import {
   Input,
   Label,
 } from 'semantic-ui-react';
+import Node from 'lib/Node';
 
 export const DEFAULT_ICON = Classes.iconClass('widget');
 
-export default {
+export interface IWidget {
+  tagName?: any,
+  children?: boolean,
+  icon?: string,
+  createHelper?: (node: Node) => any,
+  defaultProps?: object
+}
+
+interface IWidgets {
+  [index: string]: IWidget
+}
+
+const WIDGETS: IWidgets = {
   grid: {
     tagName: Grid,
     children: true,
@@ -28,7 +41,7 @@ export default {
     icon: Classes.iconClass('drag-handle-vertical'),
   },
   text: {
-    createHelper: node => node.attributes.text || node.attributes.value,
+    createHelper: (node: Node) => node.attributes.text || node.attributes.value,
     icon: Classes.iconClass('paragraph'),
   },
   label: {
@@ -51,3 +64,5 @@ export default {
     icon: Classes.iconClass('widget-button'),
   }
 }
+
+export default WIDGETS;

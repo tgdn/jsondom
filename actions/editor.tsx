@@ -1,8 +1,8 @@
 import Immutable from 'immutable';
-import Node from 'lib/Node';
+import Node, { IRawNode } from 'lib/Node';
 
-export const setEditorValue = value => dispatch => {
-  let tree;
+export const setEditorValue = (value: IRawNode | string) => (dispatch: any) => {
+  let tree: Node;
   if (typeof value === 'string') {
     tree = Node.fromJSON(value);
   } else {
